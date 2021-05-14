@@ -1,0 +1,109 @@
+{
+	"name": "run-me",
+	"displayName": "Run Me",
+	"publisher": "AbhishekPSR",
+	"description": "Run configurable command on files from VS Code",
+	"version": "0.0.2",
+	"engines": {
+		"vscode": "^1.55.0"
+	},
+	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#4a4a4a",
+		"theme": "dark"
+	},
+	"license": "SEE LICENSE IN LICENSE.md",
+	"homepage": "https://github.com/psrabhishek/run-me/blob/main/README.md",
+	"bugs": {
+		"url": "https://github.com/psrabhishek/run-me/issues",
+		"email": "psrabhishek2@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/psrabhishek/run-me.git"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:run-me.execute-file"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "run-me.execute-file",
+				"title": "Run Me: Execute File"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "run-me.execute-file",
+				"key": "ctrl+alt+e",
+				"mac": "cmd+alt+e",
+				"when": "editorTextFocus"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Run Me",
+			"description": "refer [this](http://www.google.com) for more details",
+			"properties": {
+				"runMe.fileFilter": {
+					"type": "string",
+					"default": ".*",
+					"markdownDescription": "File Filter to match the files, using `regex Format`. [regex reference🡕](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet) \n\n  `NOTE`: (use  `^` and `$` if exact match is required)"
+				},
+				"runMe.workDir": {
+					"type": "string",
+					"default": "",
+					"markdownDescription": "`Working Directory` where the command should be run"
+				},
+				"runMe.command": {
+					"type": "string",
+					"default": "",
+					"markdownDescription": "`Command to be run` on selected file. Variables are substituted based on the context: \n\n- **`Workspace`**: `${workspaceRoot}` : workspace root folder and `${workspaceFolder}` : the path of the folder opened in VS Code\n\n- `${file}` : path of file\n\n- `${relativeFile}` : relative path of file\n\n- `${fileBasename}` : file's basename\n\n- `${fileDirname}` : directory name of file\n\n- `${fileExtname}` : extension (including .) of file\n\n- `${fileBasenameNoExt}` : file's basename without extension\n\n- `${cwd}` : current working directory.\n\n- `${env.Name}` : environment variables (example for **PATH**: `${env.PATH}`)"
+				},
+				"runMe.silent.enabled": {
+					"type": "boolean",
+					"markdownDescription": "Select this option `terminal should not be shown` while running the file"
+				},
+				"runMe.silent.showConfirmation": {
+					"type": "boolean",
+					"markdownDescription": "show a `pop up message to confirm` if the command is run on file. **Only applies** when `#runMe.silent.enabled#` is checked."
+				},
+				"runMe.advanced.runVSCommandsBeforeRun": {
+					"type": "array",
+					"default": [],
+					"markdownDescription": "run `other vs code commands/extensions` **before running the file**. Format \"[command, ...inputs]\""
+				},
+				"runMe.advanced.runVSCommandsAfterRun": {
+					"type": "array",
+					"default": [],
+					"markdownDescription": "run `other vs code commands/extensions` *after running the file*. Format \"[command, ...inputs]\""
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.55.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.19.0",
+		"@typescript-eslint/eslint-plugin": "^4.14.1",
+		"@typescript-eslint/parser": "^4.14.1",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vscode-test": "^1.5.0"
+	}
+}
